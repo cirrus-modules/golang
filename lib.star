@@ -6,7 +6,7 @@ def detect_tasks(versions=["latest"]):
     all_tasks = [test_task(version) for version in versions]
     if fs.exists(".golangci.yml"):
         all_tasks.append(lint_task())
-    tag = env["CIRRUS_TAG"]
+    tag = env.get("CIRRUS_TAG", "")
     if tag != "" and fs.exists(".goreleaser.yml"):
         all_tasks.append(goreleaser_task())
     return all_tasks
