@@ -1,0 +1,2 @@
+env:
+  CIRRUS_TAG: "v0.1.0"
