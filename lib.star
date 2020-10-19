@@ -2,17 +2,17 @@ load("cirrus", "fs", "env")
 load("github.com/cirrus-templates/helpers", "task", "container", "script", "cache", "artifacts", "always")
 
 
-def detect_tasks(versions=["latest"], env={}):
-    all_tasks = [test_task(version, env) for version in versions]
+def detect_tasks(versions=["latest"]):
+    all_tasks = [test_task(version) for version in versions]
     if fs.exists(".golangci.yml"):
-        all_tasks.append(lint_task(env))
+        all_tasks.append(lint_task())
     tag = env["CIRRUS_TAG"]
     if tag != "" and fs.exists(".goreleaser.yml"):
-        all_tasks.append(goreleaser_task(env))
+        all_tasks.append(goreleaser_task())
     return all_tasks
 
 
-def test_task(version="latest", env={}):
+def test_task(version="latest"):
     instructions = [
         script("get", "go get ./..."),
         script("build", "go build ./..."),
@@ -23,15 +23,13 @@ def test_task(version="latest", env={}):
     return task(
         name="Tests",
         instance=container("golang:%s" % version),
-        env=env,
         instructions=instructions
     )
 
-def lint_task(env={}):
+def lint_task():
     return task(
         name="Lint",
         instance=container("golangci/golangci-lint:latest"),
-        env=env,
         instructions=[
             script("lint", "golangci-lint run -v --out-format json > golangci.json"),
             always(
@@ -40,11 +38,10 @@ def lint_task(env={}):
         ]
     )
 
-def goreleaser_task(env={}):
+def goreleaser_task():
     return task(
         name="Release",
         depends_on=["Test", "Lint"],
         instance=container("goreleaser/goreleaser:latest"),
-        env=env,
         instructions=[script("release", "goreleaser")]
     )
