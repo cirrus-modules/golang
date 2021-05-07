@@ -3,7 +3,7 @@
 ## Quick start
 
 ```python
-load("github.com/cirrus-templates/golang", "lint_task")
+load("github.com/cirrus-templates/golang", "detect_tasks")
 
 def main(ctx):
     return [detect_tasks()]
