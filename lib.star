@@ -1,5 +1,5 @@
 load("cirrus", "fs", "env")
-load("github.com/cirrus-templates/helpers", "task", "container", "script", "cache", "artifacts", "always")
+load("github.com/cirrus-templates/helpers@main", "task", "container", "script", "cache", "artifacts", "always")
 
 
 def detect_tasks(versions=["latest"]):
