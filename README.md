@@ -3,10 +3,10 @@
 ## Quick start
 
 ```python
-load("github.com/cirrus-modules/golang", "lint_task")
+load("github.com/cirrus-modules/golang", "detect_tasks")
 
 def main(ctx):
-    return [detect_tasks()]
+    return detect_tasks()
 ```
 
 ## Available functions
