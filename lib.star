@@ -41,7 +41,7 @@ def lint_task():
 def goreleaser_task():
     return task(
         name="Release",
-        depends_on=["Test", "Lint"],
+        depends_on=["Tests", "Lint"],
         instance=container("goreleaser/goreleaser:latest"),
         instructions=[script("release", "goreleaser")]
     )
