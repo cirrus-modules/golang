@@ -31,7 +31,7 @@ def lint_task():
         name="Lint",
         instance=container("golangci/golangci-lint:latest"),
         instructions=[
-            script("lint", "golangci-lint run -v --out-format json > golangci.json"),
+            script("lint", "golangci-lint run -v --output.json.path golangci.json"),
             always(
                 artifacts("report", "golangci.json", type="text/json", format="golangci")
             )
